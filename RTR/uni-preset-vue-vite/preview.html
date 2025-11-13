@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>智能记账APP - 预览</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background: #f5f5f5;
+            line-height: 1.6;
+        }
+
+        .preview-container {
+            max-width: 375px;
+            margin: 20px auto;
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            position: relative;
+        }
+
+        .phone-header {
+            height: 44px;
+            background: #4CAF50;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .app-content {
+            height: 667px;
+            overflow-y: auto;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+
+        .income-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .card-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .label {
+            display: block;
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+
+        .input {
+            width: 100%;
+            height: 40px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 0 12px;
+            font-size: 14px;
+            background: #f9f9f9;
+        }
+
+        .save-btn {
+            width: 100%;
+            height: 44px;
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .earnings-card {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 20px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .earnings-title {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .per-second {
+            font-size: 12px;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+
+        .amount {
+            font-size: 48px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .time {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .stats-grid {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            flex: 1;
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .stat-amount {
+            display: block;
+            font-size: 20px;
+            font-weight: bold;
+            color: #4CAF50;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .quick-actions {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .action-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .action-item {
+            flex: 1;
+            min-width: 70px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 15px 10px;
+            text-align: center;
+            border: 2px solid #e9ecef;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .action-item:hover {
+            background: #e9ecef;
+            transform: scale(0.95);
+        }
+
+        .action-icon {
+            display: block;
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .action-text {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .tab-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: white;
+            border-top: 1px solid #e0e0e0;
+            display: flex;
+        }
+
+        .tab-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .tab-item.active {
+            color: #4CAF50;
+        }
+
+        .tab-icon {
+            font-size: 20px;
+            margin-bottom: 2px;
+        }
+
+        .demo-note {
+            text-align: center;
+            margin: 20px;
+            padding: 20px;
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 10px;
+            color: #856404;
+        }
+
+        .feature-list {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .feature-item {
+            background: white;
+            margin-bottom: 20px;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .feature-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .feature-desc {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-note">
+        <h2>📱 智能记账APP - 功能演示</h2>
+        <p>这是一个基于uni-app开发的现代化记账应用，支持实时收入计算、智能分类管理等功能。</p>
+        <p><strong>点击底部导航可以切换不同页面预览</strong></p>
+    </div>
+
+    <div class="preview-container">
+        <div class="phone-header">智能记账</div>
+
+        <!-- 首页内容 -->
+        <div class="app-content" id="home-page">
+            <div class="income-card" id="setup-card">
+                <div class="card-title">💰 设置您的收入信息</div>
+                <div class="form-group">
+                    <label class="label">月薪 (元)</label>
+                    <input class="input" type="number" placeholder="请输入月薪" value="10000">
+                </div>
+                <div class="form-group">
+                    <label class="label">每月工作天数</label>
+                    <input class="input" type="number" placeholder="例如：22" value="22">
+                </div>
+                <div class="form-group">
+                    <label class="label">每日工作小时</label>
+                    <input class="input" type="number" placeholder="例如：8" value="8">
+                </div>
+                <div class="form-group">
+                    <label class="label">开始工作日期</label>
+                    <input class="input" type="date" value="2024-01-01">
+                </div>
+                <button class="save-btn" onclick="showEarnings()">保存设置</button>
+            </div>
+
+            <div class="earnings-card hidden" id="earnings-card">
+                <div class="earnings-title">💸 实时收入</div>
+                <div class="per-second">每秒赚 ¥0.0631</div>
+                <div class="amount" id="earnings-amount">¥126.20</div>
+                <div class="time" id="current-time">14:30:15</div>
+            </div>
+
+            <div class="stats-grid hidden" id="stats-grid">
+                <div class="stat-card">
+                    <span class="stat-amount">¥45,600.00</span>
+                    <span class="stat-label">今年总收入</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-amount">¥128,400.00</span>
+                    <span class="stat-label">累计总收入</span>
+                </div>
+            </div>
+
+            <div class="quick-actions hidden" id="quick-actions">
+                <div class="section-title">📝 快捷记账</div>
+                <div class="action-grid">
+                    <div class="action-item" onclick="switchPage('record')">
+                        <span class="action-icon">💸</span>
+                        <span class="action-text">支出</span>
+                    </div>
+                    <div class="action-item" onclick="switchPage('record')">
+                        <span class="action-icon">💰</span>
+                        <span class="action-text">收入</span>
+                    </div>
+                    <div class="action-item" onclick="switchPage('statistics')">
+                        <span class="action-icon">📊</span>
+                        <span class="action-text">统计</span>
+                    </div>
+                    <div class="action-item" onclick="switchPage('category')">
+                        <span class="action-icon">🏷️</span>
+                        <span class="action-text">分类</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 记账页面 -->
+        <div class="app-content hidden" id="record-page">
+            <div style="text-align: center; padding: 50px 20px; color: white;">
+                <h2>💰 记账页面</h2>
+                <p style="margin: 20px 0;">支持支出/收入记录</p>
+                <p>• 自定义分类管理</p>
+                <p>• 智能数字键盘</p>
+                <p>• 详细备注信息</p>
+                <p>• 日期时间设置</p>
+            </div>
+        </div>
+
+        <!-- 统计页面 -->
+        <div class="app-content hidden" id="statistics-page">
+            <div style="text-align: center; padding: 50px 20px; color: white;">
+                <h2>📊 统计分析</h2>
+                <p style="margin: 20px 0;">多维度数据统计</p>
+                <p>• 按分类统计消费</p>
+                <p>• 时间范围筛选</p>
+                <p>• 详细记录查看</p>
+                <p>• 排序功能支持</p>
+            </div>
+        </div>
+
+        <!-- 分类页面 -->
+        <div class="app-content hidden" id="category-page">
+            <div style="text-align: center; padding: 50px 20px; color: white;">
+                <h2>🏷️ 分类管理</h2>
+                <p style="margin: 20px 0;">灵活的分类系统</p>
+                <p>• 添加自定义分类</p>
+                <p>• 丰富图标选择</p>
+                <p>• 使用频率统计</p>
+                <p>• 编辑删除功能</p>
+            </div>
+        </div>
+
+        <div class="tab-bar">
+            <div class="tab-item active" onclick="switchPage('home')">
+                <div class="tab-icon">🏠</div>
+                <div>首页</div>
+            </div>
+            <div class="tab-item" onclick="switchPage('record')">
+                <div class="tab-icon">➕</div>
+                <div>记账</div>
+            </div>
+            <div class="tab-item" onclick="switchPage('statistics')">
+                <div class="tab-icon">📊</div>
+                <div>统计</div>
+            </div>
+            <div class="tab-item" onclick="switchPage('category')">
+                <div class="tab-icon">🏷️</div>
+                <div>分类</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="feature-list">
+        <div class="feature-item">
+            <div class="feature-title">🎯 核心功能特性</div>
+            <div class="feature-desc">
+                <strong>实时收入计算器：</strong>根据用户设置的月薪、工作时间等信息，实时计算每秒收入，并显示今日、今年、累计总收入。数据持久化存储，关闭应用后继续累计。
+            </div>
+        </div>
+
+        <div class="feature-item">
+            <div class="feature-title">💰 智能记账系统</div>
+            <div class="feature-desc">
+                <strong>支出收入记录：</strong>支持快速记录各类收支，内置数字键盘支持快速计算，可添加备注和设置日期时间。自定义分类管理，支持添加、编辑、删除分类。
+            </div>
+        </div>
+
+        <div class="feature-item">
+            <div class="feature-title">📊 数据统计分析</div>
+            <div class="feature-desc">
+                <strong>多维度统计：</strong>按分类统计消费次数和金额，支持今日、本周、本月、今年等时间筛选。可查看每个分类的详细消费记录，支持按次数或金额排序。
+            </div>
+        </div>
+
+        <div class="feature-item">
+            <div class="feature-title">🎨 现代化UI设计</div>
+            <div class="feature-desc">
+                <strong>用户体验：</strong>采用现代化卡片式设计，绿色主题配色，圆角阴影效果。流畅的交互动画，适配手机操作的大按钮设计，清晰的信息层次结构。
+            </div>
+        </div>
+
+        <div class="feature-item">
+            <div class="feature-title">🔧 技术实现</div>
+            <div class="feature-desc">
+                <strong>技术栈：</strong>基于uni-app框架开发，使用Vue 3 + Vite构建，SCSS样式预处理，uni.storage本地存储。支持H5、小程序、APP多端运行。
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentPage = 'home';
+        let earningsInterval;
+
+        function switchPage(page) {
+            // 隐藏所有页面
+            document.querySelectorAll('.app-content').forEach(el => {
+                el.classList.add('hidden');
+            });
+
+            // 显示目标页面
+            document.getElementById(page + '-page').classList.remove('hidden');
+
+            // 更新导航状态
+            document.querySelectorAll('.tab-item').forEach(el => {
+                el.classList.remove('active');
+            });
+            event.target.closest('.tab-item').classList.add('active');
+
+            currentPage = page;
+        }
+
+        function showEarnings() {
+            // 隐藏设置卡片
+            document.getElementById('setup-card').classList.add('hidden');
+
+            // 显示收入相关元素
+            document.getElementById('earnings-card').classList.remove('hidden');
+            document.getElementById('stats-grid').classList.remove('hidden');
+            document.getElementById('quick-actions').classList.remove('hidden');
+
+            // 开始实时更新
+            startEarningsUpdate();
+        }
+
+        function startEarningsUpdate() {
+            let earnings = 126.20;
+            const perSecond = 0.0631;
+
+            earningsInterval = setInterval(() => {
+                earnings += perSecond;
+                document.getElementById('earnings-amount').textContent = '¥' + earnings.toFixed(2);
+
+                // 更新时间
+                const now = new Date();
+                document.getElementById('current-time').textContent = now.toLocaleTimeString('zh-CN');
+            }, 1000);
+        }
+
+        // 初始化时间显示
+        function updateTime() {
+            const now = new Date();
+            const timeElement = document.getElementById('current-time');
+            if (timeElement) {
+                timeElement.textContent = now.toLocaleTimeString('zh-CN');
+            }
+        }
+
+        // 页面加载完成后开始更新时间
+        document.addEventListener('DOMContentLoaded', function() {
+            updateTime();
+            setInterval(updateTime, 1000);
+        });
+    </script>
+</body>
+</html>

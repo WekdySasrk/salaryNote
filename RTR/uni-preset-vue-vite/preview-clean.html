@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>智能记账APP - 简洁设计预览</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background: #F9FAFB;
+            line-height: 1.6;
+            color: #1F2937;
+        }
+
+        .preview-container {
+            max-width: 375px;
+            margin: 20px auto;
+            background: white;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1), 0 4px 10px rgba(0,0,0,0.05);
+            position: relative;
+            border: 1px solid #E5E7EB;
+        }
+
+        .phone-header {
+            height: 44px;
+            background: #6B7280;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .app-content {
+            height: 667px;
+            overflow-y: auto;
+            background: #F9FAFB;
+            padding: 24px 20px;
+        }
+
+        .income-card {
+            background: #FFFFFF;
+            border-radius: 20px;
+            padding: 28px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.06);
+            border: 1px solid #E5E7EB;
+            text-align: center;
+        }
+
+        .card-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #1F2937;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+            text-align: left;
+        }
+
+        .label {
+            display: block;
+            font-size: 14px;
+            color: #6B7280;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .input {
+            width: 100%;
+            height: 44px;
+            border: 1px solid #E5E7EB;
+            border-radius: 12px;
+            padding: 0 16px;
+            font-size: 14px;
+            background: #FFFFFF;
+            color: #1F2937;
+            transition: all 0.3s;
+        }
+
+        .input:focus {
+            border-color: #6B7280;
+            box-shadow: 0 0 0 3px rgba(107, 114, 128, 0.1);
+            outline: none;
+        }
+
+        .save-btn {
+            width: 100%;
+            height: 44px;
+            background: #6B7280;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.06);
+        }
+
+        .save-btn:active {
+            transform: translateY(1px);
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .earnings-card {
+            background: linear-gradient(135deg, #ECFDF5 0%, #D1FAE5 100%);
+            color: #1F2937;
+            border: 1px solid #A7F3D0;
+            border-radius: 20px;
+            padding: 28px;
+            margin-bottom: 20px;
+            text-align: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.06);
+        }
+
+        .earnings-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #10B981;
+            margin-bottom: 8px;
+        }
+
+        .per-second {
+            font-size: 12px;
+            color: #6B7280;
+            margin-bottom: 16px;
+        }
+
+        .amount {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #10B981;
+        }
+
+        .time {
+            font-size: 14px;
+            font-weight: 500;
+            color: #6B7280;
+        }
+
+        .stats-grid {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            flex: 1;
+            background: #FFFFFF;
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.06);
+            border: 1px solid #E5E7EB;
+        }
+
+        .stat-amount {
+            display: block;
+            font-size: 18px;
+            font-weight: 600;
+            color: #10B981;
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 11px;
+            color: #6B7280;
+        }
+
+        .quick-actions {
+            background: #FFFFFF;
+            border-radius: 20px;
+            padding: 28px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.06);
+            border: 1px solid #E5E7EB;
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1F2937;
+            margin-bottom: 16px;
+        }
+
+        .action-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .action-item {
+            flex: 1;
+            min-width: 70px;
+            background: #F9FAFB;
+            border-radius: 16px;
+            padding: 16px 12px;
+            text-align: center;
+            border: 1px solid #E5E7EB;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .action-item:hover {
+            background: #F3F4F6;
+        }
+
+        .action-item:active {
+            transform: translateY(1px);
+        }
+
+        .action-icon {
+            display: block;
+            font-size: 24px;
+            margin-bottom: 6px;
+        }
+
+        .action-text {
+            font-size: 11px;
+            color: #6B7280;
+            font-weight: 500;
+        }
+
+        .tab-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: #FFFFFF;
+            border-top: 1px solid #E5E7EB;
+            display: flex;
+        }
+
+        .tab-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #6B7280;
+            font-size: 11px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .tab-item.active {
+            color: #6B7280;
+            font-weight: 600;
+        }
+
+        .tab-icon {
+            font-size: 18px;
+            margin-bottom: 2px;
+        }
+
+        .demo-note {
+            text-align: center;
+            margin: 20px;
+            padding: 20px;
+            background: #FFFBEB;
+            border: 1px solid #FEF3C7;
+            border-radius: 12px;
+            color: #92400E;
+        }
+
+        .feature-list {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .feature-item {
+            background: #FFFFFF;
+            margin-bottom: 16px;
+            padding: 24px;
+            border-radius: 16px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.06);
+            border: 1px solid #E5E7EB;
+        }
+
+        .feature-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1F2937;
+            margin-bottom: 12px;
+        }
+
+        .feature-desc {
+            color: #6B7280;
+            line-height: 1.6;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* 记账页面样式 */
+        .record-content {
+            padding: 20px;
+        }
+
+        .type-tabs {
+            display: flex;
+            background: #FFFFFF;
+            border-radius: 16px;
+            padding: 6px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.06);
+            border: 1px solid #E5E7EB;
+        }
+
+        .type-tab {
+            flex: 1;
+            padding: 12px;
+            text-align: center;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #6B7280;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .type-tab.active {
+            background: #6B7280;
+            color: white;
+        }
+
+        .amount-display {
+            background: #FFFFFF;
+            border-radius: 20px;
+            padding: 32px;
+            text-align: center;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.06);
+            border: 1px solid #E5E7EB;
+        }
+
+        .amount-text {
+            font-size: 48px;
+            font-weight: 700;
+            color: #1F2937;
+        }
+
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .category-btn {
+            background: #F9FAFB;
+            border: 1px solid #E5E7EB;
+            border-radius: 16px;
+            padding: 16px 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .category-btn.active {
+            background: #6B7280;
+            color: white;
+            border-color: #6B7280;
+        }
+
+        .category-btn:active {
+            transform: translateY(1px);
+        }
+
+        .category-icon {
+            font-size: 24px;
+            margin-bottom: 4px;
+            display: block;
+        }
+
+        .category-name {
+            font-size: 11px;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-note">
+        <h2>📱 智能记账APP - 简洁设计</h2>
+        <p>采用现代化简洁设计，使用柔和的色彩和圆角元素，提供优雅的用户体验。</p>
+        <p><strong>点击底部导航可以切换不同页面预览</strong></p>
+    </div>
+
+    <div class="preview-container">
+        <div class="phone-header">智能记账</div>
+
+        <!-- 首页内容 -->
+        <div class="app-content" id="home-page">
+            <div class="income-card" id="setup-card">
+                <div class="card-title">💰 设置您的收入信息</div>
+                <div class="form-group">
+                    <label class="label">月薪 (元)</label>
+                    <input class="input" type="number" placeholder="请输入月薪" value="10000">
+                </div>
+                <div class="form-group">
+                    <label class="label">每月工作天数</label>
+                    <input class="input" type="number" placeholder="例如：22" value="22">
+                </div>
+                <div class="form-group">
+                    <label class="label">每日工作小时</label>
+                    <input class="input" type="number" placeholder="例如：8" value="8">
+                </div>
+                <div class="form-group">
+                    <label class="label">开始工作日期</label>
+                    <input class="input" type="date" value="2024-01-01">
+                </div>
+                <button class="save-btn" onclick="showEarnings()">保存设置</button>
+            </div>
+
+            <div class="earnings-card hidden" id="earnings-card">
+                <div class="earnings-title">💸 实时收入</div>
+                <div class="per-second">每秒赚 ¥0.0631</div>
+                <div class="amount" id="earnings-amount">¥126.20</div>
+                <div class="time" id="current-time">14:30:15</div>
+            </div>
+
+            <div class="stats-grid hidden" id="stats-grid">
+                <div class="stat-card">
+                    <span class="stat-amount">¥45,600.00</span>
+                    <span class="stat-label">今年总收入</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-amount">¥128,400.00</span>
+                    <span class="stat-label">累计总收入</span>
+                </div>
+            </div>
+
+            <div class="quick-actions hidden" id="quick-actions">
+                <div class="section-title">📝 快捷记账</div>
+                <div class="action-grid">
+                    <div class="action-item" onclick="switchPage('record')">
+                        <span class="action-icon">💸</span>
+                        <span class="action-text">支出</span>
+                    </div>
+                    <div class="action-item" onclick="switchPage('record')">
+                        <span class="action-icon">💰</span>
+                        <span class="action-text">收入</span>
+                    </div>
+                    <div class="action-item" onclick="switchPage('statistics')">
+                        <span class="action-icon">📊</span>
+                        <span class="action-text">统计</span>
+                    </div>
+                    <div class="action-item" onclick="switchPage('category')">
+                        <span class="action-icon">🏷️</span>
+                        <span class="action-text">分类</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 记账页面 -->
+        <div class="app-content hidden" id="record-page">
+            <div class="record-content">
+                <div class="type-tabs">
+                    <div class="type-tab active">支出</div>
+                    <div class="type-tab">收入</div>
+                </div>
+
+                <div class="amount-display">
+                    <div class="amount-text">¥0.00</div>
+                </div>
+
+                <div class="category-grid">
+                    <div class="category-btn active">
+                        <span class="category-icon">🍔</span>
+                        <span class="category-name">餐饮</span>
+                    </div>
+                    <div class="category-btn">
+                        <span class="category-icon">🚗</span>
+                        <span class="category-name">交通</span>
+                    </div>
+                    <div class="category-btn">
+                        <span class="category-icon">🛍️</span>
+                        <span class="category-name">购物</span>
+                    </div>
+                    <div class="category-btn">
+                        <span class="category-icon">🎬</span>
+                        <span class="category-name">娱乐</span>
+                    </div>
+                    <div class="category-btn">
+                        <span class="category-icon">💊</span>
+                        <span class="category-name">医疗</span>
+                    </div>
+                    <div class="category-btn">
+                        <span class="category-icon">🏠</span>
+                        <span class="category-name">住房</span>
+                    </div>
+                    <div class="category-btn">
+                        <span class="category-icon">📚</span>
+                        <span class="category-name">教育</span>
+                    </div>
+                    <div class="category-btn">
+                        <span class="category-icon">➕</span>
+                        <span class="category-name">添加</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 统计页面 -->
+        <div class="app-content hidden" id="statistics-page">
+            <div style="text-align: center; padding: 50px 20px; color: #6B7280;">
+                <h2 style="color: #1F2937; margin-bottom: 20px;">📊 统计分析</h2>
+                <p style="margin: 16px 0;">多维度数据统计</p>
+                <p>• 按分类统计消费</p>
+                <p>• 时间范围筛选</p>
+                <p>• 详细记录查看</p>
+                <p>• 排序功能支持</p>
+            </div>
+        </div>
+
+        <!-- 分类页面 -->
+        <div class="app-content hidden" id="category-page">
+            <div style="text-align: center; padding: 50px 20px; color: #6B7280;">
+                <h2 style="color: #1F2937; margin-bottom: 20px;">🏷️ 分类管理</h2>
+                <p style="margin: 16px 0;">灵活的分类系统</p>
+                <p>• 添加自定义分类</p>
+                <p>• 丰富图标选择</p>
+                <p>• 使用频率统计</p>
+                <p>• 编辑删除功能</p>
+            </div>
+        </div>
+
+        <div class="tab-bar">
+            <div class="tab-item active" onclick="switchPage('home')">
+                <div class="tab-icon">🏠</div>
+                <div>首页</div>
+            </div>
+            <div class="tab-item" onclick="switchPage('record')">
+                <div class="tab-icon">➕</div>
+                <div>记账</div>
+            </div>
+            <div class="tab-item" onclick="switchPage('statistics')">
+                <div class="tab-icon">📊</div>
+                <div>统计</div>
+            </div>
+            <div class="tab-item" onclick="switchPage('category')">
+                <div class="tab-icon">🏷️</div>
+                <div>分类</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="feature-list">
+        <div class="feature-item">
+            <div class="feature-title">🎨 简洁设计理念</div>
+            <div class="feature-desc">
+                <strong>现代化简洁风格：</strong>采用柔和的灰色调为主色，去除鲜艳颜色，使用大圆角设计，营造温和舒适的视觉体验。所有组件都采用统一的设计语言，确保界面的一致性和专业感。
+            </div>
+        </div>
+
+        <div class="feature-item">
+            <div class="feature-title">🔘 圆角设计系统</div>
+            <div class="feature-desc">
+                <strong>统一圆角规范：</strong>所有UI组件都使用圆角设计，从按钮到卡片，从输入框到导航栏。大圆角（16-20px）用于主要容器，中圆角（12-16px）用于按钮和输入框，小圆角（8-12px）用于标签和小元素。
+            </div>
+        </div>
+
+        <div class="feature-item">
+            <div class="feature-title">🎯 色彩搭配方案</div>
+            <div class="feature-desc">
+                <strong>简洁配色系统：</strong>主色调使用中性灰（#6B7280），成功色使用柔和绿（#10B981），警告色使用温和橙（#F59E0B），错误色使用柔和红（#EF4444）。背景使用浅灰（#F9FAFB），文字使用深灰（#1F2937）。
+            </div>
+        </div>
+
+        <div class="feature-item">
+            <div class="feature-title">✨ 交互体验优化</div>
+            <div class="feature-desc">
+                <strong>细腻交互反馈：</strong>按钮点击使用轻微下移效果而非缩放，阴影使用多层柔和阴影营造层次感，所有动画使用0.3s缓动过渡。输入框聚焦时显示柔和的外发光效果，提升操作反馈。
+            </div>
+        </div>
+
+        <div class="feature-item">
+            <div class="feature-title">📐 布局与间距</div>
+            <div class="feature-desc">
+                <strong>精确间距系统：</strong>使用8px基础间距单位，组件间距为16px或24px，内边距为24px或32px。卡片使用1px细边框增加精致感，所有元素都遵循统一的间距规范，确保视觉平衡。
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentPage = 'home';
+        let earningsInterval;
+
+        function switchPage(page) {
+            // 隐藏所有页面
+            document.querySelectorAll('.app-content').forEach(el => {
+                el.classList.add('hidden');
+            });
+
+            // 显示目标页面
+            document.getElementById(page + '-page').classList.remove('hidden');
+
+            // 更新导航状态
+            document.querySelectorAll('.tab-item').forEach(el => {
+                el.classList.remove('active');
+            });
+            event.target.closest('.tab-item').classList.add('active');
+
+            currentPage = page;
+        }
+
+        function showEarnings() {
+            // 隐藏设置卡片
+            document.getElementById('setup-card').classList.add('hidden');
+
+            // 显示收入相关元素
+            document.getElementById('earnings-card').classList.remove('hidden');
+            document.getElementById('stats-grid').classList.remove('hidden');
+            document.getElementById('quick-actions').classList.remove('hidden');
+
+            // 开始实时更新
+            startEarningsUpdate();
+        }
+
+        function startEarningsUpdate() {
+            let earnings = 126.20;
+            const perSecond = 0.0631;
+
+            earningsInterval = setInterval(() => {
+                earnings += perSecond;
+                document.getElementById('earnings-amount').textContent = '¥' + earnings.toFixed(2);
+
+                // 更新时间
+                const now = new Date();
+                document.getElementById('current-time').textContent = now.toLocaleTimeString('zh-CN');
+            }, 1000);
+        }
+
+        // 初始化时间显示
+        function updateTime() {
+            const now = new Date();
+            const timeElement = document.getElementById('current-time');
+            if (timeElement) {
+                timeElement.textContent = now.toLocaleTimeString('zh-CN');
+            }
+        }
+
+        // 页面加载完成后开始更新时间
+        document.addEventListener('DOMContentLoaded', function() {
+            updateTime();
+            setInterval(updateTime, 1000);
+        });
+    </script>
+</body>
+</html>

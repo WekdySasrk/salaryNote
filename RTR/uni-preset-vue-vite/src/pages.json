@@ -1,0 +1,82 @@
+{
+  "pages": [
+    {
+      "path": "pages/index/index",
+      "style": {
+        "navigationBarTitleText": "",
+        "navigationBarBackgroundColor": "#6B7280",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
+      "path": "pages/record/record",
+      "style": {
+        "navigationBarTitleText": "记一笔",
+        "navigationBarBackgroundColor": "#6B7280",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
+      "path": "pages/category/category",
+      "style": {
+        "navigationBarTitleText": "分类管理",
+        "navigationBarBackgroundColor": "#6B7280",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
+      "path": "pages/statistics/statistics",
+      "style": {
+        "navigationBarTitleText": "消费统计",
+        "navigationBarBackgroundColor": "#6B7280",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
+      "path": "pages/analysis/analysis",
+      "style": {
+        "navigationBarTitleText": "AI分析",
+        "navigationBarBackgroundColor": "#6B7280",
+        "navigationBarTextStyle": "white"
+      }
+    }
+  ],
+  "globalStyle": {
+    "navigationBarTextStyle": "white",
+    "navigationBarTitleText": "智能记账",
+    "navigationBarBackgroundColor": "#6B7280",
+    "backgroundColor": "#F9FAFB"
+  },
+  "tabBar": {
+    "color": "#7A7E83",
+    "selectedColor": "#6B7280",
+    "borderStyle": "black",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "iconPath": "static/home.png",
+        "selectedIconPath": "static/home-active.png",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/record/record",
+        "iconPath": "static/add.png",
+        "selectedIconPath": "static/add-active.png",
+        "text": "记账"
+      },
+      {
+        "pagePath": "pages/analysis/analysis",
+        "iconPath": "static/ai.png",
+        "selectedIconPath": "static/ai-active.png",
+        "text": "AI分析"
+      },
+      {
+        "pagePath": "pages/statistics/statistics",
+        "iconPath": "static/chart.png",
+        "selectedIconPath": "static/chart-active.png",
+        "text": "统计"
+      }
+    ]
+  }
+}
